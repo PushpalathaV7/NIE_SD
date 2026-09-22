@@ -1,0 +1,73 @@
+COLLEGE SERVICE REQUEST SYSTEM
+
+Collections
+
+service_requests: title, description, category, status, requested_by, assigned_to, resolved_by
+users: username, password, role
+
+
+Task
+
+Student Rahul raising the service request to the college service team "Classroom projector is not working".
+
+Team Lead Priya assigns the service request raised by Rahul to Support Engineer Arjun.
+
+Admin will create Rahul, Priya, and Arjun users.
+
+
+Solution
+
+1. Create MongoDB database 'college_service_request_db'
+
+use college_service_request_db
+
+
+2. Add four users Admin, Rahul, Priya, and Arjun
+
+db.users.insertMany([
+    {username: "Admin", password: "admin123", role: "admin"},
+    {username: "Rahul", password: "rahul123", role: "student"},
+    {username: "Priya", password: "priya123", role: "team_lead"},
+    {username: "Arjun", password: "arjun123", role: "support_eng"}
+])
+
+db.users.find()
+
+
+3. Rahul will create the service request
+
+db.service_requests.insertOne({
+    title: "Classroom projector is not working",
+    description: "The projector in the classroom is not displaying the screen",
+    category: "Equipment",
+    status: "NEW",
+    requested_by: "Rahul"
+})
+
+db.service_requests.find()
+
+
+4. Priya assigns the service request to Arjun
+
+db.service_requests.updateOne(
+    {_id: ObjectId("???")},
+    {$set: {
+        status: "ASSIGNED",
+        assigned_to: "Arjun"
+    }}
+)
+
+db.service_requests.find()
+
+
+5. Arjun will update the issue resolution status
+
+db.service_requests.updateOne(
+    {_id: ObjectId("???")},
+    {$set: {
+        status: "RESOLVED",
+        resolved_by: "Arjun"
+    }}
+)
+
+db.service_requests.find()
